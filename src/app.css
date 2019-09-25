@@ -1,0 +1,38 @@
+body {
+  margin: 0;
+  font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* background: linear-gradient(23deg, rgb(235, 235, 235), rgb(253, 253, 253), rgb(255, 255, 255)); */
+  /* height: 90vh; */
+  /* background-color: rgb(63, 63, 63); */
+}
+
+.login-form{
+  margin-top: 100px;
+}
+
+
+/* @media screen and (max-width: 768px) {
+ 
+} */
+
+.video-element{
+  position: absolute;
+  /* top: -100%; */
+  /* right: -100%; */
+  width: 0px;
+  height: 0px;
+  background-color: black;
+  height: 100%;
+  transition: .2s;
+  
+  
+}
+
+.show-video{
+  width: 100%;
+  height: 100%;
+  /* top: 0; */
+  /* right: 0; */
+}

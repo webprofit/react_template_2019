@@ -1,0 +1,25 @@
+.indicator-section {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+}
+
+.indicator-section>.indicator {
+  margin: 5px 10px;
+  /* max-width: 600px;
+  min-width: 300px; */
+}
+
+.notification-bar {
+  width: fit-content;
+  max-width: 600px;
+}
+
+@media screen and (max-width: 600px) {
+  .indicator-section {
+    width: 100%;
+  }
+  .notification-bar {
+    width: 94%;
+  }
+}
