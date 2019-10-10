@@ -1,4 +1,4 @@
-import { IEntity } from "../interfaces/IEntity";
+import { IEntity } from "COMMON/interfaces/IEntity";
 
 export interface IModelState {
     isValid: boolean;

@@ -1,11 +1,10 @@
 import React from 'react';
-import { IProps, IState } from 'src/common/interfaces/main-interfaces';
 import { Switch, Route } from 'react-router-dom';
-
-import AppWrapper from '../../utils/auth/auth-Guard';
-import LoginComponent from '../../utils/components/login';
+import { IProps, IState } from 'COMMON/interfaces/main-interfaces';
+import AppWrapper from 'UTILS/auth/auth-Guard';
+import LoginComponent from 'UTILS/components/login';
 import AdminComponent from './admin.component';
-import { PrivateRoute } from '../../utils/auth/private-route';
+import { PrivateRoute } from 'UTILS/auth/private-route';
 
 
 export default class AppAdmin extends React.Component<IState, IProps> {

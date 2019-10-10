@@ -1,5 +1,5 @@
-﻿import { IEntity } from "../interfaces/IEntity";
-import { IValidationError, IValidationRule, ValidationType } from "../interfaces/IModelState";
+﻿import { IEntity } from "COMMON/interfaces/IEntity";
+import { IValidationError, IValidationRule, ValidationType } from "COMMON/interfaces/IModelState";
 
 
 export abstract class BaseEntity implements IEntity {

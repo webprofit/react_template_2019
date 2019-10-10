@@ -9,8 +9,11 @@
       "target": "es2017",
       "baseUrl": ".",
       "paths": {
-          "CORE/*": [
+          "COMMON/*": [
             "src/common/*"
+          ],
+          "UTILS/*": [
+            "src/utils/*"
           ]
         }
   },

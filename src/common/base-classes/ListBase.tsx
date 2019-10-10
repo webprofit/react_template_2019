@@ -1,13 +1,12 @@
-﻿import { BaseEntity } from '../entities/BaseEntity';
-//import { confirm, alert} from 'COMMON/components/Confirm-alert/Confirm-alert';
-import BaseComponent from '../base-classes/BaseComponent';
-import { IProps, IState } from '../interfaces/main-interfaces';
-import { IListConfig, IEditableListConfig } from '../interfaces/IListConfig';
-import DataService from '../data-service/DataService';
-import { ConfigHelper } from '../helpers/ConfigHelper';
-import { IQueryParams } from '../interfaces/IUrlBuilder';
-import { IValidationError } from '../interfaces/IModelState';
-import { User } from '../entities/User';
+﻿import { BaseEntity } from 'COMMON/entities/BaseEntity';
+import BaseComponent from 'COMMON/base-classes/BaseComponent';
+import { IProps, IState } from 'COMMON/interfaces/main-interfaces';
+import { IListConfig, IEditableListConfig } from 'COMMON/interfaces/IListConfig';
+import DataService from 'COMMON/data-service/DataService';
+import { ConfigHelper } from 'COMMON/helpers/ConfigHelper';
+import { IQueryParams } from 'COMMON/interfaces/IUrlBuilder';
+import { IValidationError } from 'COMMON/interfaces/IModelState';
+import { User } from 'COMMON/entities/User';
 
 export interface IListState<T extends BaseEntity> extends IState {
     data: T[],

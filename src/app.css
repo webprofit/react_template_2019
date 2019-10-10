@@ -16,23 +16,3 @@ body {
 /* @media screen and (max-width: 768px) {
  
 } */
-
-.video-element{
-  position: absolute;
-  /* top: -100%; */
-  /* right: -100%; */
-  width: 0px;
-  height: 0px;
-  background-color: black;
-  height: 100%;
-  transition: .2s;
-  
-  
-}
-
-.show-video{
-  width: 100%;
-  height: 100%;
-  /* top: 0; */
-  /* right: 0; */
-}

@@ -1,7 +1,7 @@
-import { IResponseAuth } from "../interfaces/IResponseAuth";
-import { IUrlBuilder } from "../interfaces/IUrlBuilder";
-import { IDataServiceConfig } from "../data-service/DataService";
-import { IEntity } from "../interfaces/IEntity";
+import { IResponseAuth } from "./IResponseAuth";
+import { IUrlBuilder } from "./IUrlBuilder";
+import { IDataServiceConfig } from "COMMON/data-service/DataService";
+import { IEntity } from "./IEntity";
 
 export interface IDetailsConfig<T extends IEntity> extends IDataServiceConfig {
     url: string;

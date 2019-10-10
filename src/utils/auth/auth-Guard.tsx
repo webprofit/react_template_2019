@@ -1,18 +1,18 @@
 import React from 'react';
 import '../../app.css';
-import { IProps } from '../../common/interfaces/main-interfaces';
+import { IProps } from 'COMMON/interfaces/main-interfaces';
 import { HashRouter as Router, Link } from 'react-router-dom';
 
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 
-import { User } from '../../common/entities/User';
-import { Auth } from '../../common/services/AuthService';
-import LoadIndicatorService from '../../common/services/LoadingService';
+import { User } from 'COMMON/entities/User';
+import { Auth } from 'COMMON/services/AuthService';
+import LoadIndicatorService from 'COMMON/services/LoadingService';
 import { LoadIndicator } from '../components/load-indicator/load-Indicator';
 import ErrorMessage from '../components/error-message/error-message';
 import { createBrowserHistory } from 'history';
-import ErrorResponse from '../../common/services/ErrorHandling';
+import ErrorResponse from 'COMMON/services/ErrorHandling';
 
 export const history = createBrowserHistory();
 

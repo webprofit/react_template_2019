@@ -1,11 +1,11 @@
 import * as React from 'react';
 import Moment from 'moment';
-import { IProps, IState } from '../../common/interfaces/main-interfaces';
-import { User } from '../../common/entities/User';
-import { Auth } from '../services/AuthService';
-import LoadIndicatorService from '../services/LoadingService';
-import NotificationService from '../services/NotificationService';
-import ErrorResponse, { ErrorDetails } from '../services/ErrorHandling';
+import { IProps, IState } from 'COMMON/interfaces/main-interfaces';
+import { User } from 'COMMON/entities/User';
+import { Auth } from 'COMMON/services/AuthService';
+import LoadIndicatorService from 'COMMON/services/LoadingService';
+import NotificationService from 'COMMON/services/NotificationService';
+import ErrorResponse, { ErrorDetails } from 'COMMON/services/ErrorHandling';
 
 export default class BaseComponent<P extends IProps, S extends IState> extends React.Component<P, S> {
     protected moment = Moment;

@@ -1,9 +1,9 @@
 
 import { Route, Redirect } from "react-router";
 import React from "react";
-import { Auth } from "../../common/services/AuthService";
-import NotificationService from "../../common/services/NotificationService";
-import { UserRole } from "../../common/entities/User";
+import { Auth } from "COMMON/services/AuthService";
+import NotificationService from "COMMON/services/NotificationService";
+import { UserRole } from "COMMON/entities/User";
 
 export const PrivateRoute = ({ component: Component, roles, ...rest }:any) => (
     <Route {...rest} render={props => {

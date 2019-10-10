@@ -1,7 +1,7 @@
-import { IDetailsConfig } from "../interfaces/IDetailsConfig";
-import { IServiceConfig } from "../interfaces/IServiceConfig";
-import { IEntity } from "../interfaces/IEntity";
-import { Auth } from "../services/AuthService";
+import { IDetailsConfig } from "COMMON/interfaces/IDetailsConfig";
+import { IServiceConfig } from "COMMON/interfaces/IServiceConfig";
+import { IEntity } from "COMMON/interfaces/IEntity";
+import { Auth } from "COMMON/services/AuthService";
 import UrlHelper from "./UrlHelper";
 
 export class ConfigHelper {

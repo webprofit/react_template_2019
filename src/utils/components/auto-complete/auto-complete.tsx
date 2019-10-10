@@ -1,8 +1,8 @@
 ﻿import * as React from 'react';
 import '/autocomplete.css';
 import Autosuggest, { SuggestionsFetchRequestedParams, SuggestionSelectedEventData, ChangeEvent } from 'react-autosuggest';
-import { User } from 'src/common/entities/User';
-import DataService from 'src/common/data-service/DataService';
+import { User } from 'COMMON/entities/User';
+import DataService from 'COMMON/data-service/DataService';
 import MenuItem from '@material-ui/core/MenuItem';
 
 

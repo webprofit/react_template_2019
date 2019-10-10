@@ -1,5 +1,5 @@
-import { IUrlBuilder } from "../interfaces/IUrlBuilder";
-import { IResponseAuth } from "../interfaces/IResponseAuth";
+import { IUrlBuilder } from "./IUrlBuilder";
+import { IResponseAuth } from "./IResponseAuth";
 
 export interface IServiceConfig{
     urlBuilder: IUrlBuilder,

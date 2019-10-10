@@ -1,6 +1,6 @@
 ﻿import * as React from 'react';
-import BaseComponent from '../../common/base-classes/BaseComponent';
-import { IProps } from '../../common/interfaces/main-interfaces';
+import BaseComponent from 'COMMON/base-classes/BaseComponent';
+import { IProps } from 'COMMON/interfaces/main-interfaces';
 
 
 
@@ -26,7 +26,6 @@ export default class AdminComponent extends BaseComponent<IAdminProps, IAdminSta
   }
 
   componentDidMount(){
-    this.showLoading(true)
   }
 
 

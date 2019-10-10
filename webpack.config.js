@@ -1,6 +1,7 @@
 const path = require('path');
 var webpack = require("webpack");
 const CopyPlugin = require('copy-webpack-plugin');
+const HtmlPlugin = require('html-webpack-plugin')
 
 module.exports = (env) => {
     return {
@@ -9,7 +10,7 @@ module.exports = (env) => {
             "admin": "./src/admin.tsx",
         },
         output: {
-            filename: '[name].bundle.js',
+            filename: '[name].[chunkhash].js',
             publicPath: '/',
             //path: path.resolve("./", 'dist'),
             path: path.resolve(__dirname, 'dist'),
@@ -17,7 +18,7 @@ module.exports = (env) => {
         devtool: 'source-map',
         devServer: {
             contentBase: [path.join(__dirname, "public"), path.join(__dirname, "dist")],
-            index: './public/index.html',
+            index: './index.html',
             proxy: {
                 '/api': {
                     target: 'http://localhost:5783',
@@ -70,6 +71,18 @@ module.exports = (env) => {
             new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
             new webpack.DefinePlugin({ 'process.env.API': JSON.stringify(env.API) }),
             new CopyPlugin([{ from: './public', to: '' }]),
+            new HtmlPlugin({
+                inject: true,
+                chunks: ['index'],
+                filename: 'index.html',
+                template: path.resolve('public', 'index.html')
+            }),
+            new HtmlPlugin({
+                inject: true,
+                chunks: ['admin'],
+                filename: 'admin.html',
+                template: path.resolve('public', 'admin.html')
+            })
         ]
     }
 };

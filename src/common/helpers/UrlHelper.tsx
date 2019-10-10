@@ -1,4 +1,4 @@
-import { IUrlBuilder, IQueryParams, ISelectParams, IUpdateParams } from "../interfaces/IUrlBuilder";
+import { IUrlBuilder, IQueryParams, ISelectParams, IUpdateParams } from "COMMON/interfaces/IUrlBuilder";
 
 export default class UrlHelper implements IUrlBuilder {    
         

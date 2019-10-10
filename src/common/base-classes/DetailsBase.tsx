@@ -1,9 +1,9 @@
-﻿import { BaseEntity } from '../../common/entities/BaseEntity';
-import BaseComponent from '../../common/base-classes/BaseComponent';
-import { IState, IProps } from '../../common/interfaces/main-interfaces';
-import { IDetailsConfig } from '../../common/interfaces/IDetailsConfig';
-import DataService from '../../common/data-service/DataService';
-import { ISelectParams } from '../../common/interfaces/IUrlBuilder';
+﻿import { BaseEntity } from 'COMMON/entities/BaseEntity';
+import BaseComponent from 'COMMON/base-classes/BaseComponent';
+import { IState, IProps } from 'COMMON/interfaces/main-interfaces';
+import { IDetailsConfig } from 'COMMON/interfaces/IDetailsConfig';
+import DataService from 'COMMON/data-service/DataService';
+import { ISelectParams } from 'COMMON/interfaces/IUrlBuilder';
 
 export interface IDetailsState<T extends BaseEntity> extends IState {
     data: T | T[];

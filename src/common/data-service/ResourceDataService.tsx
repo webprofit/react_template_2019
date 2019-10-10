@@ -1,10 +1,10 @@
-﻿import BaseDataService from '../data-service/BaseDataService';
-import { IServiceConfig } from '../interfaces/IServiceConfig';
-import { BaseEntity } from '../entities/BaseEntity';
-import { ConfigHelper } from '../helpers/ConfigHelper';
-import { KeyHelper } from '../helpers/KeyHelper';
-import { MemoryCache } from '../services/MemoryCache';
-import { IQueryParams, ISelectParams } from '../interfaces/IUrlBuilder';
+﻿import BaseDataService from 'COMMON/data-service/BaseDataService';
+import { IServiceConfig } from 'COMMON/interfaces/IServiceConfig';
+import { BaseEntity } from 'COMMON/entities/BaseEntity';
+import { ConfigHelper } from 'COMMON/helpers/ConfigHelper';
+import { KeyHelper } from 'COMMON/helpers/KeyHelper';
+import { MemoryCache } from 'COMMON/services/MemoryCache';
+import { IQueryParams, ISelectParams } from 'COMMON/interfaces/IUrlBuilder';
 
 
 export interface IResourceServiceConfig extends IServiceConfig {

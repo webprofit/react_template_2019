@@ -1,7 +1,7 @@
-import { IResponseAuth } from "../interfaces/IResponseAuth";
-import { IUrlBuilder } from "../interfaces/IUrlBuilder";
-import { IDataServiceConfig } from "../data-service/DataService";
-import { BaseEntity } from "../entities/BaseEntity";
+import { IResponseAuth } from "./IResponseAuth";
+import { IUrlBuilder } from "./IUrlBuilder";
+import { IDataServiceConfig } from "COMMON/data-service/DataService";
+import { BaseEntity } from "COMMON/entities/BaseEntity";
 
 export interface IListConfig extends IDataServiceConfig {
     url: string;

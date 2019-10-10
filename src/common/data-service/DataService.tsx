@@ -1,6 +1,6 @@
-import ResourceDataService, { IResourceServiceConfig } from '../data-service/ResourceDataService';
-import { BaseEntity } from '../entities/BaseEntity';
-import { ConfigHelper } from '../helpers/ConfigHelper';
+import ResourceDataService, { IResourceServiceConfig } from 'COMMON/data-service/ResourceDataService';
+import { BaseEntity } from 'COMMON/entities/BaseEntity';
+import { ConfigHelper } from 'COMMON/helpers/ConfigHelper';
 
 export interface IDataServiceConfig extends IResourceServiceConfig {
 

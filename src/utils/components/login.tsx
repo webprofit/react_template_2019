@@ -2,9 +2,9 @@ import React from "react";
 import { Container, Paper, Grid, Button, Typography } from "@material-ui/core";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 
-import { Auth } from "../../common/services/AuthService";
-import { IState, IProps } from "../../common/interfaces/main-interfaces";
-import BaseComponent from "../../common/base-classes/BaseComponent";
+import { Auth } from "COMMON/services/AuthService";
+import { IState, IProps } from "COMMON/interfaces/main-interfaces";
+import BaseComponent from "COMMON/base-classes/BaseComponent";
 
 class ILoginProps extends IProps {
     login: () => void;
