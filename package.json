@@ -27,7 +27,7 @@
     "webpack": "^4.39.2"
   },
   "scripts": {
-    "start": "webpack-dev-server --env.API=development --mode development --open ",
+    "start": "webpack-dev-server --env.API=development --mode development ",
     "build": "webpack --mode production --env.API=production",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

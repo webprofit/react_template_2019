@@ -5,7 +5,7 @@ import { User } from 'COMMON/entities/User';
 import { Auth } from 'COMMON/services/AuthService';
 import LoadIndicatorService from 'COMMON/services/LoadingService';
 import NotificationService from 'COMMON/services/NotificationService';
-import ErrorResponse, { ErrorDetails } from 'COMMON/services/ErrorHandling';
+import ErrorService, {ErrorResponse, ErrorDetails} from 'COMMON/services/ErrorHandling';
 
 export default class BaseComponent<P extends IProps, S extends IState> extends React.Component<P, S> {
     protected moment = Moment;
@@ -34,6 +34,7 @@ export default class BaseComponent<P extends IProps, S extends IState> extends R
     protected showLoading = (show: boolean): any => LoadIndicatorService.getInstance().notify(show);
 
     notifyError = (msg: string): void => {
+        NotificationService
         NotificationService.getInstance().notify('error', msg, 15000);
     }
 
@@ -51,52 +52,8 @@ export default class BaseComponent<P extends IProps, S extends IState> extends R
 
     handleError = (err: Error | ErrorResponse): void => {
         this.showLoading(false);
-
-        if (err instanceof ErrorResponse) {
-
-            if ((err as ErrorResponse).details) {
-                if ((err as ErrorResponse).details.status == 401) {                    
-                    this.notifyError(`Unauthorized. Please sign in.`);
-                    return;
-                }
-                if ((err as ErrorResponse).details.status === 404) {
-                    this.notifyError(`Data not found.`);
-                    return;
-                }
-                if ((err as ErrorResponse).details.status === 403) {
-                    this.notifyError(`Forbidden.`);
-                    return;
-                }
-                (err as ErrorResponse).details.json()
-                    .then((data: ErrorDetails | any) => {
-
-                        if (this.onError(data)) {
-                            return;
-                        }
-
-                        if(data.detail){
-                            this.notifyError(data.detail);
-                        }
-                        // else {
-                        //     for (var property in data) {
-                        //         if (property == '') {
-                        //             this.notifyError('Bad request: invalid data has been submitted.');
-                        //             continue;
-                        //         }
-                        //         if (data.hasOwnProperty(property)) {
-                        //             this.notifyError(data[property].join(' '));
-                        //         }
-                        //     }
-                        // }
-                    })
-                    .catch(err => {
-                        this.notifyError(`Server error occured. Please contact system administrator.`);
-                    });
-            } else {
-                this.notifyError(`Failed to process request. Please contact system administrator.`);
-            }
-        } else {
-            this.notifyError(`Failed to process request. Please contact system administrator.`);
+        if (!this.onError(err as any)) {
+            this.notifyError(ErrorService.getInstance().handleError(err));
         }
     }
 
@@ -115,7 +72,6 @@ export default class BaseComponent<P extends IProps, S extends IState> extends R
     }
 
     onCustomKeyDown = (event: any, property: string) => {
-
         if (event.key == "Backspace") {
             if (event.target.value.length == 1)
                 event.target.value = "";

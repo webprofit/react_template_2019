@@ -1,6 +1,7 @@
 import * as React from 'react';
 import BaseComponent from 'COMMON/base-classes/BaseComponent';
 import { IState, IProps } from 'COMMON/interfaces/main-interfaces';
+import { ErrorDetails } from 'COMMON/services/ErrorHandling';
 
 interface ITechState extends IState {
 }

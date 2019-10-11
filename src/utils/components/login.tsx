@@ -90,7 +90,7 @@ export default class LoginComponent extends BaseComponent<ILoginProps, LoginStat
                                 type="email"
                                 margin="normal"
                                 value={this.state.authUser.email || ""}
-                                onChange={this.handleChange('Email')}
+                                onChange={this.handleChange('email')}
                                 validators={['required', 'isEmail']}
                                 errorMessages={['this field is required', 'email is not valid']}
                             />

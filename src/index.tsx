@@ -3,15 +3,36 @@ import './app.css';
 import ReactDOM from 'react-dom';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
-import App from './pages/user/user-entry-point';
+import AppWrapper from 'UTILS/auth/auth-Guard';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import { PrivateRoute } from 'UTILS/auth/private-route';
+import LoginComponent from 'UTILS/components/login';
+import { UserRole } from 'COMMON/entities/User';
+import AdminComponent from './pages/admin/admin.component';
+import MainComponent from './pages/user/main-component';
 
 
-function APP() {
+const UserRoute = () => {
+  return (
+    <AppWrapper>
+      <Switch>
+        <Route path="/login" component={LoginComponent} />
+
+        <PrivateRoute path="/admin" roles={UserRole.Admin} component={AdminComponent} />
+        <PrivateRoute exact path="/" component={MainComponent} />
+
+        <Redirect to="/" />
+      </Switch>
+    </AppWrapper>
+  )
+}
+
+const App = () => {
   return (
     <MuiPickersUtilsProvider utils={MomentUtils}>
-      <App />
+      <UserRoute />
     </MuiPickersUtilsProvider>
   );
 }
 
-ReactDOM.render(<APP />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
