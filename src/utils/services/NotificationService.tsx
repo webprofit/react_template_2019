@@ -1,4 +1,6 @@
-export default class NotificationService {
+import INotification from "COMMON/interfaces/INotification";
+
+export default class NotificationService implements INotification{
     observers: any[];
 
     private static instance: NotificationService;

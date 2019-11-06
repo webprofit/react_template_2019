@@ -1,5 +1,5 @@
 ﻿import { IServiceConfig } from 'COMMON/interfaces/IServiceConfig';
-import { ErrorResponse } from 'COMMON/services/ErrorHandling';
+import { ErrorResponse } from 'COMMON/entities/ErrorHandling';
 
 
 export default class BaseDataService {

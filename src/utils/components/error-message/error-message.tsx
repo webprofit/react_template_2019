@@ -8,7 +8,7 @@ import InfoIcon from '@material-ui/icons/Info';
 import CloseIcon from '@material-ui/icons/Close';
 import WarningIcon from '@material-ui/icons/Warning';
 import clsx from 'clsx';
-import NotificationService from 'COMMON/services/NotificationService';
+import NotificationService from 'UTILS/services/NotificationService';
 
 class IEState {
     messages: any;

@@ -4,6 +4,7 @@ import { IState, IProps } from 'COMMON/interfaces/main-interfaces';
 import { IDetailsConfig } from 'COMMON/interfaces/IDetailsConfig';
 import DataService from 'COMMON/data-service/DataService';
 import { ISelectParams } from 'COMMON/interfaces/IUrlBuilder';
+import NotificationService from 'UTILS/services/NotificationService';
 
 export interface IDetailsState<T extends BaseEntity> extends IState {
     data: T | T[];
@@ -24,7 +25,7 @@ export default class DetailsBase<T extends BaseEntity, P extends IDetailsProps, 
     protected dateNow = new Date().toLocaleDateString();
 
     constructor(props: any, config?: IDetailsConfig<T>) {
-        super(props)
+        super(props, config)
 
         if (config) {
             this.svc = new DataService(config);

@@ -2,7 +2,7 @@
 import { Route, Redirect } from "react-router";
 import React from "react";
 import { Auth } from "COMMON/services/AuthService";
-import NotificationService from "COMMON/services/NotificationService";
+import NotificationService from "UTILS/services/NotificationService";
 import { UserRole } from "COMMON/entities/User";
 
 export const PrivateRoute = ({ component: Component, roles, ...rest }:any) => (

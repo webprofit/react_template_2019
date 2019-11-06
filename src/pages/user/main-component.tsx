@@ -1,7 +1,8 @@
 import * as React from 'react';
 import BaseComponent from 'COMMON/base-classes/BaseComponent';
 import { IState, IProps } from 'COMMON/interfaces/main-interfaces';
-import { ErrorDetails } from 'COMMON/services/ErrorHandling';
+import { ErrorDetails } from 'COMMON/entities/ErrorHandling';
+import NotificationService from 'UTILS/services/NotificationService';
 
 interface ITechState extends IState {
 }
@@ -15,7 +16,7 @@ export class IEnrollProps extends IProps {
 export default class MainComponent extends BaseComponent<IEnrollProps, ITechState> {
 
     constructor(props: IEnrollProps) {
-        super(props)
+        super(props, {notification: NotificationService.getInstance()})
     }
 
     getInitialState() {
@@ -29,7 +30,7 @@ export default class MainComponent extends BaseComponent<IEnrollProps, ITechStat
     }
 
     getData = () => {
-        this.notifyInfo('hello');
+        this.notifyInfo('hello, this is user page');
     }
 
 

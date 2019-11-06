@@ -12,7 +12,7 @@ import LoadIndicatorService from 'COMMON/services/LoadingService';
 import { LoadIndicator } from '../components/load-indicator/load-Indicator';
 import ErrorMessage from '../components/error-message/error-message';
 import { createBrowserHistory } from 'history';
-import ErrorResponse from 'COMMON/services/ErrorHandling';
+import { ErrorResponse } from 'COMMON/entities/ErrorHandling';
 
 export const history = createBrowserHistory();
 

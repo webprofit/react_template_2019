@@ -7,6 +7,7 @@ import { ConfigHelper } from 'COMMON/helpers/ConfigHelper';
 import { IQueryParams } from 'COMMON/interfaces/IUrlBuilder';
 import { IValidationError } from 'COMMON/interfaces/IModelState';
 import { User } from 'COMMON/entities/User';
+import NotificationService from 'UTILS/services/NotificationService';
 
 export interface IListState<T extends BaseEntity> extends IState {
     data: T[],
@@ -37,7 +38,7 @@ export default class ListBase<T extends BaseEntity, P extends IListProps, S exte
     //_filter: string;
 
     constructor(props: any, config: IListConfig) {
-        super(props);
+        super(props, config);
         this.svc = new DataService<T>(config);
         this.includes = this.includesBuilder(config.includes);
     }

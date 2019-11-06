@@ -4,15 +4,21 @@ import { IProps, IState } from 'COMMON/interfaces/main-interfaces';
 import { User } from 'COMMON/entities/User';
 import { Auth } from 'COMMON/services/AuthService';
 import LoadIndicatorService from 'COMMON/services/LoadingService';
-import NotificationService from 'COMMON/services/NotificationService';
-import ErrorService, {ErrorResponse, ErrorDetails} from 'COMMON/services/ErrorHandling';
+// import NotificationService from 'UTILS/services/NotificationService';
+import { ErrorResponse, ErrorDetails } from 'COMMON/entities/ErrorHandling';
+import IBaseConfig from 'COMMON/interfaces/IBaseConfig';
+import INotification from 'COMMON/interfaces/INotification';
+import { IServiceConfig } from 'COMMON/interfaces/IServiceConfig';
 
 export default class BaseComponent<P extends IProps, S extends IState> extends React.Component<P, S> {
     protected moment = Moment;
     protected user: User = null;
+    private notification: INotification;
 
-    constructor(props: P) {
+    constructor(props: P, config: IBaseConfig) {
         super(props);
+        // debugger
+        this.notification = config.notification;
         this.state = this.getInitialState();
     }
 
@@ -29,31 +35,66 @@ export default class BaseComponent<P extends IProps, S extends IState> extends R
             });
     }
 
-    authCompleted() {    }
+    authCompleted() { }
 
     protected showLoading = (show: boolean): any => LoadIndicatorService.getInstance().notify(show);
 
-    notifyError = (msg: string): void => {
-        NotificationService
-        NotificationService.getInstance().notify('error', msg, 15000);
-    }
+    notifyError = (msg: string): void => this.notification.notify('error', msg, 15000);
 
-    notifyWarning = (msg: string): void => {
-        NotificationService.getInstance().notify('warning', msg, 15000);
-    }
+    notifyWarning = (msg: string): void => this.notification.notify('warning', msg, 15000);
 
-    notifyInfo = (msg: string): void => {
-        NotificationService.getInstance().notify('info', msg);
-    }
+    notifyInfo = (msg: string): void => this.notification.notify('info', msg);
 
-    notifySuccess = (msg: string): void => {
-        NotificationService.getInstance().notify('success', msg);
-    }
+    notifySuccess = (msg: string): void => this.notification.notify('success', msg);
 
     handleError = (err: Error | ErrorResponse): void => {
         this.showLoading(false);
-        if (!this.onError(err as any)) {
-            this.notifyError(ErrorService.getInstance().handleError(err));
+        if (err instanceof ErrorResponse) {
+
+            if ((err as ErrorResponse).details) {
+                if ((err as ErrorResponse).details.status == 401) {
+                    this.notifyError(`Unauthorized. Please sign in.`);
+                    return;
+                }
+                if ((err as ErrorResponse).details.status === 404) {
+                    this.notifyError(`Data not found.`);
+                    return;
+                }
+                if ((err as ErrorResponse).details.status === 403) {
+                    this.notifyError(`Forbidden.`);
+                    return;
+                }
+                (err as ErrorResponse).details.json()
+                    .then((data: ErrorDetails | any) => {
+
+                        if (this.onError(data)) {
+                            return;
+                        }
+
+                        if (data.detail) {
+                            this.notifyError(data.detail);
+                        }
+                        // else {
+                        //     for (var property in data) {
+                        //         if (property == '') {
+                        //             this.notifyError('Bad request: invalid data has been submitted.');
+                        //             continue;
+                        //         }
+                        //         if (data.hasOwnProperty(property)) {
+                        //             this.notifyError(data[property].join(' '));
+                        //         }
+                        //     }
+                        // }
+                    })
+                    .catch(err => {
+                        this.notifyError(`Server error occured. Please contact system administrator.`);
+                    });
+            } else {
+                this.notifyError(`Failed to process request. Please contact system administrator.`);
+            }
+        }
+        else {
+            this.notifyError(`Failed to process request. Please contact system administrator.`);
         }
     }
 

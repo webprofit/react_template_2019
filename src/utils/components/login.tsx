@@ -5,6 +5,7 @@ import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import { Auth } from "COMMON/services/AuthService";
 import { IState, IProps } from "COMMON/interfaces/main-interfaces";
 import BaseComponent from "COMMON/base-classes/BaseComponent";
+import NotificationService from "UTILS/services/NotificationService";
 
 class ILoginProps extends IProps {
     login: () => void;
@@ -23,7 +24,7 @@ class LoginState extends IState {
 export default class LoginComponent extends BaseComponent<ILoginProps, LoginState> {
 
     constructor(props: ILoginProps) {
-        super(props);
+        super(props, {notification: NotificationService.getInstance()});
     }
 
     getInitialState() {

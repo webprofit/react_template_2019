@@ -1,7 +1,7 @@
 import { IResponseAuth } from 'COMMON/interfaces/IResponseAuth';
 import UrlHelper from 'COMMON/helpers/UrlHelper';
 import { User, UserRole } from 'COMMON/entities/User';
-import { ErrorResponse } from './ErrorHandling';
+import { ErrorResponse } from '../entities/ErrorHandling';
 // import ErrorResponse from './ErrorHandling';
 
 export class Auth implements IResponseAuth {
