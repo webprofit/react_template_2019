@@ -12,14 +12,16 @@ import AdminComponent from './pages/admin/admin.component';
 import MainComponent from './pages/user/main-component';
 
 
+
 const UserRoute = () => {
   return (
-    <AppWrapper>
+    <AppWrapper authentication={false}>
       <Switch>
         <Route path="/login" component={LoginComponent} />
+        <Route path="/" component={MainComponent} />
 
-        <PrivateRoute path="/admin" roles={UserRole.Admin} component={AdminComponent} />
-        <PrivateRoute exact path="/" component={MainComponent} />
+        {/* <PrivateRoute path="/admin" roles={UserRole.Admin} component={AdminComponent} />
+        <PrivateRoute exact path="/" component={MainComponent} /> */}
 
         <Redirect to="/" />
       </Switch>

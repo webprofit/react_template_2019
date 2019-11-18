@@ -5,7 +5,6 @@ export interface IQueryParams{
     take?: number,
     skip?: number,
     count?: boolean,
-    //where?: string,
     order?: string,
     includes?: string,
     oDataQuery?: string,

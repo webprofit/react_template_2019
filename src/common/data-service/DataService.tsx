@@ -1,6 +1,5 @@
 import ResourceDataService, { IResourceServiceConfig } from 'COMMON/data-service/ResourceDataService';
 import { BaseEntity } from 'COMMON/entities/BaseEntity';
-import { ConfigHelper } from 'COMMON/helpers/ConfigHelper';
 
 export interface IDataServiceConfig extends IResourceServiceConfig {
 
@@ -8,8 +7,8 @@ export interface IDataServiceConfig extends IResourceServiceConfig {
 
 export default class DataService<T extends BaseEntity> extends ResourceDataService<T> {
 
-    constructor(config: IDataServiceConfig | string) {
-        super(typeof (config) === 'string' ? ConfigHelper.getDefaultConfig(config) : ConfigHelper.ensureConfig(config));
+    constructor(config: IDataServiceConfig ) {
+        super(config);
     }
 
     async create(obj: T): Promise<T> {

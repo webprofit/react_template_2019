@@ -1,10 +1,9 @@
 ﻿import { BaseEntity } from 'COMMON/entities/BaseEntity';
 import BaseComponent from 'COMMON/base-classes/BaseComponent';
-import { IState, IProps } from 'COMMON/interfaces/main-interfaces';
+import { IState, IProps } from 'COMMON/entities/basePropsState';
 import { IDetailsConfig } from 'COMMON/interfaces/IDetailsConfig';
-import DataService from 'COMMON/data-service/DataService';
 import { ISelectParams } from 'COMMON/interfaces/IUrlBuilder';
-import NotificationService from 'UTILS/services/NotificationService';
+import DataService from 'COMMON/data-service/DataService';
 
 export interface IDetailsState<T extends BaseEntity> extends IState {
     data: T | T[];

@@ -2,10 +2,11 @@ import React from "react";
 import { Container, Paper, Grid, Button, Typography } from "@material-ui/core";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 
-import { Auth } from "COMMON/services/AuthService";
-import { IState, IProps } from "COMMON/interfaces/main-interfaces";
+import { Auth } from "UTILS/services/AuthService";
+import { IState, IProps } from "COMMON/entities/basePropsState";
 import BaseComponent from "COMMON/base-classes/BaseComponent";
 import NotificationService from "UTILS/services/NotificationService";
+import { ConfigHelper } from "UTILS/helpers/ConfigHelper";
 
 class ILoginProps extends IProps {
     login: () => void;
@@ -24,7 +25,7 @@ class LoginState extends IState {
 export default class LoginComponent extends BaseComponent<ILoginProps, LoginState> {
 
     constructor(props: ILoginProps) {
-        super(props, {notification: NotificationService.getInstance()});
+        super(props,  ConfigHelper.getDefaultConfig(''));
     }
 
     getInitialState() {

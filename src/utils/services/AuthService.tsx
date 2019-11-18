@@ -1,7 +1,7 @@
 import { IResponseAuth } from 'COMMON/interfaces/IResponseAuth';
-import UrlHelper from 'COMMON/helpers/UrlHelper';
+import UrlHelper from 'UTILS/helpers/UrlHelper';
 import { User, UserRole } from 'COMMON/entities/User';
-import { ErrorResponse } from '../entities/ErrorHandling';
+import { ErrorResponse } from '../../common/entities/ErrorHandling';
 // import ErrorResponse from './ErrorHandling';
 
 export class Auth implements IResponseAuth {
@@ -33,30 +33,25 @@ export class Auth implements IResponseAuth {
   
 
     private load = (): Promise<User> => {
-        return new Promise((resolve, reject) => {
-            this.user.firstName = "Test",
-            this.user.lastName = "User",
-            resolve(this.user)
+        if (this._promise) {
+            return this._promise;
+        }
+
+        this._promise = fetch(`${this.url}/current`, {
+            headers: this.headers,
+            credentials: this.credentials,
         })
-        // if (this._promise) {
-        //     return this._promise;
-        // }
+            .then(response => {
+                if (response.status === 401) {
+                    return null;
+                }
+                if (!response.ok) {
+                    throw new ErrorResponse(response.statusText, response);
+                }
+                return response.json();
+            });
 
-        // this._promise = fetch(`${this.url}/current`, {
-        //     headers: this.headers,
-        //     credentials: this.credentials,
-        // })
-        //     .then(response => {
-        //         if (response.status === 401) {
-        //             return null;
-        //         }
-        //         if (!response.ok) {
-        //             throw new ErrorResponse(response.statusText, response);
-        //         }
-        //         return response.json();
-        //     });
-
-        // return this._promise;
+        return this._promise;
     }
 
     public static getProvider = (): Auth => {
@@ -90,24 +85,20 @@ export class Auth implements IResponseAuth {
             method: 'POST',
             body: JSON.stringify({ 'email': login, 'password': pass })
         }
-        return new Promise((resolve, reject) => {
-            this.user.firstName = "Test",
-            this.user.lastName = "User",
-            resolve(this.user)
-        })
-        // return fetch(this.url + `/login`, options)
-        //     .then(response => {
-        //         if (!response.ok) {
-        //             throw new ErrorResponse(response.statusText, response);
-        //         }
-        //         return response.json();
-        //     })
-        //     .then(res => {
-        //         this._identity = res;
-        //         this.initCompleted = true;
-        //         this.listeners.forEach((callback) => callback(this._identity));
-        //         return res;
-        //     });
+    
+        return fetch(this.url + `/login`, options)
+            .then(response => {
+                if (!response.ok) {
+                    throw new ErrorResponse(response.statusText, response);
+                }
+                return response.json();
+            })
+            .then(res => {
+                this._identity = res;
+                this.initCompleted = true;
+                this.listeners.forEach((callback) => callback(this._identity));
+                return res;
+            });
     }
 
     public signOut(): Promise<any> {

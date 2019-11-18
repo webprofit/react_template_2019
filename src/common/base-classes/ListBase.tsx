@@ -1,13 +1,11 @@
 ﻿import { BaseEntity } from 'COMMON/entities/BaseEntity';
 import BaseComponent from 'COMMON/base-classes/BaseComponent';
-import { IProps, IState } from 'COMMON/interfaces/main-interfaces';
+import { IProps, IState } from 'COMMON/entities/basePropsState';
 import { IListConfig, IEditableListConfig } from 'COMMON/interfaces/IListConfig';
 import DataService from 'COMMON/data-service/DataService';
-import { ConfigHelper } from 'COMMON/helpers/ConfigHelper';
 import { IQueryParams } from 'COMMON/interfaces/IUrlBuilder';
 import { IValidationError } from 'COMMON/interfaces/IModelState';
-import { User } from 'COMMON/entities/User';
-import NotificationService from 'UTILS/services/NotificationService';
+
 
 export interface IListState<T extends BaseEntity> extends IState {
     data: T[],
@@ -15,7 +13,7 @@ export interface IListState<T extends BaseEntity> extends IState {
 }
 
 export interface IListProps extends IProps {
-    currentUser: User;
+    // currentUser: User;
     // title: string;
 
 }
@@ -35,10 +33,12 @@ export default class ListBase<T extends BaseEntity, P extends IListProps, S exte
     protected includes: string;
     protected oDataQuery: string;
     protected validationErrors: IValidationError[];
+    protected url: string;
     //_filter: string;
 
     constructor(props: any, config: IListConfig) {
         super(props, config);
+        this.url = config.url;
         this.svc = new DataService<T>(config);
         this.includes = this.includesBuilder(config.includes);
     }
@@ -49,35 +49,34 @@ export default class ListBase<T extends BaseEntity, P extends IListProps, S exte
     }
 
     componentWillUnmount() {
-        //window.removeEventListener('scroll', this.handleScroll);
+        window.removeEventListener('scroll', this.handleScroll);
     }
 
     componentDidMount() {
-        //window.addEventListener('scroll', this.handleScroll);
-        //this.getData();
+        window.addEventListener('scroll', this.handleScroll);
+        this.getData();
     }
 
-    // handleScroll = () => {
-    //     let height_footer = 250;
-    //     var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-    //     if (w < 768) { height_footer = 1000 }
+    handleScroll = () => {
+        let height_footer = 250;
+        var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        if (w < 768) { height_footer = 1000 }
 
-    //     const windowHeight = 'innerHeight' in window ? window.innerHeight : document.documentElement.offsetHeight;
-    //     const body = document.body,
-    //         html = document.documentElement;
-    //     const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+        const windowHeight = 'innerHeight' in window ? window.innerHeight : document.documentElement.offsetHeight;
+        const body = document.body,
+            html = document.documentElement;
+        const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
 
-    //     const windowBottom = windowHeight + window.pageYOffset;
+        const windowBottom = windowHeight + window.pageYOffset;
 
-    //     if (windowBottom >= docHeight - height_footer && !this.loading && this.state.data) {
-    //         if (!(this.lengthData < this.take)) {
-    //             this.loadData();
-    //         }
-    //     }
-    // }
-
-    dataLoaded() {
+        if (windowBottom >= docHeight - height_footer && !this.loading && this.state.data) {
+            if (!(this.lengthData < this.take)) {
+                this.loadData();
+            }
+        }
     }
+
+    dataLoaded() { }
 
     includesBuilder = (includes: string[]): string => {
         let _includes: string = '';
@@ -89,46 +88,50 @@ export default class ListBase<T extends BaseEntity, P extends IListProps, S exte
         return _includes;
     }
 
-    // loadData = () => {
-    //     // this.showLoading(true);
-    //     this.loading = true;
-    //     this.skip += this.take;
+    loadData = () => {
+        if (this.url) {
+            this.showLoading(true);
+            this.loading = true;
+            this.skip += this.take;
 
-    //     let filter: string;
+            let filter: string;
 
-    //     if (this.filterStr) filter = this.filterStr;
-    //     if (this._filter) filter = this._filter;
-    //     this.svc.query({ filter, skip: this.skip, take: this.take, ordeer: this.order, includes: this.includes } as IQueryParams)
-    //         .then((res: T[]) => {
-    //             if (res) {
-    //                 const _data = this.state.data;
-    //                 _data.push(...res);
-    //                 this.setState({ data: _data })
-    //                 this.loading = false;
-    //                 this.lengthData = res.length;
-    //                 // this.showLoading(false);
-    //             }
-    //         })
-    //         .catch((err: any) => this.handleError(err));
-    // }
+            if (this.filterStr) filter = this.filterStr;
+            // if (this._filter) filter = this._filter;
+            this.svc.query({ filter, skip: this.skip, take: this.take, ordeer: this.order, includes: this.includes } as IQueryParams)
+                .then((res: T[]) => {
+                    if (res) {
+                        const _data = this.state.data;
+                        _data.push(...res);
+                        this.setState({ data: _data })
+                        this.loading = false;
+                        this.lengthData = res.length;
+                        this.showLoading(false);
+                    }
+                })
+                .catch((err: any) => this.handleError(err));
+        }
+    }
 
     //ToDo: clean up after discussion about oData and material table approaches
     getData = () => new Promise((resolve, reject) => {
-        this.svc.query({ filter: this.filterStr, skip: this.skip, take: this.take, order: this.order, includes: this.includes, count: true, oDataQuery: this.oDataQuery } as IQueryParams)
-            .then((res: any) => {
-                if (res) {
-                    this.lengthData = res.length;
-                    this.setState({ data: res.items });
-                    resolve({
-                        data: res.items,
-                        page: this.skip / this.take,
-                        totalCount: res.count
-                    });
-                }
-                this.dataLoaded();
-                // this.showLoading(false);
-            })
-            .catch((err: any) => { this.handleError(err); reject(err) });
+        if (this.url) {
+            this.svc.query({ filter: this.filterStr, skip: this.skip, take: this.take, order: this.order, includes: this.includes, count: true, oDataQuery: this.oDataQuery } as IQueryParams)
+                .then((res: any) => {
+                    if (res) {
+                        this.lengthData = res.length;
+                        this.setState({ data: res.items });
+                        resolve({
+                            data: res.items,
+                            page: this.skip / this.take,
+                            totalCount: res.count
+                        });
+                    }
+                    this.dataLoaded();
+                    // this.showLoading(false);
+                })
+                .catch((err: any) => { this.handleError(err); reject(err) });
+        }
     })
 
     search() {
@@ -157,7 +160,7 @@ export class EditableListBase<T extends BaseEntity, P extends IListProps, S exte
     constructor(props: IProps, config: IEditableListConfig<T>) {
         super(props, config)
 
-        this.svc = new DataService(ConfigHelper.getDefaultConfig(config.url));
+        this.svc = new DataService(config);
         this.activator = config.type;
     }
 

@@ -1,10 +1,9 @@
 ﻿import BaseDataService from 'COMMON/data-service/BaseDataService';
 import { IServiceConfig } from 'COMMON/interfaces/IServiceConfig';
 import { BaseEntity } from 'COMMON/entities/BaseEntity';
-import { ConfigHelper } from 'COMMON/helpers/ConfigHelper';
-import { KeyHelper } from 'COMMON/helpers/KeyHelper';
-import { MemoryCache } from 'COMMON/services/MemoryCache';
 import { IQueryParams, ISelectParams } from 'COMMON/interfaces/IUrlBuilder';
+import { IMemoryCache } from 'COMMON/interfaces/IMemoryCache';
+import { IKeyHelper } from 'COMMON/interfaces/IKeyHelper';
 
 
 export interface IResourceServiceConfig extends IServiceConfig {
@@ -18,27 +17,31 @@ export interface IQueryResult<T extends BaseEntity> {
 
 export default class ResourceDataService<T extends BaseEntity> extends BaseDataService {
 
-    protected cache: MemoryCache = MemoryCache.getInstance();
+    protected cache: IMemoryCache ;
+  
     protected dependencies: string[] = [];
     protected cacheMinutes: number = 10;
-    protected generator: KeyHelper = new KeyHelper();
+    protected generator: IKeyHelper;
 
-    constructor(config: IResourceServiceConfig | string) {
-        super(typeof (config) === 'string' ? ConfigHelper.getDefaultConfig(config) : ConfigHelper.ensureConfig(config));
+    constructor(config: IResourceServiceConfig) {
+        super(config);
+        this.generator = config.keyHelper;
+        this.cache = config.cache;
     }
 
     query(params: IQueryParams, noCache: boolean = false): Promise<T[]> {
-        let key = !params.skip && !params.take ? this.generator.genKey([`${this.url}${params.oDataQuery}`, params.filter, params.order]) : '';
-        if (key && !noCache) {
-            const key = this.generator.genKey([`${this.url}${params.oDataQuery}`, params.filter, params.order]);
 
-            if (this.cache.keyExist(key)) {
-                return Promise.resolve(this.cache.get(key))
-            };
-            if (this.cache.keyExist(`${key}_promise`)) {
-                return this.cache.get(`${key}_promise`)
-            };
-        }
+            let key = !params.skip && !params.take &&  !this.generator ? this.generator.genKey([`${this.url}${params.oDataQuery}`, params.filter, params.order]) : '';
+            if (key && !noCache) {
+                const key = this.generator.genKey([`${this.url}${params.oDataQuery}`, params.filter, params.order]);
+                
+                if (this.cache.keyExist(key)) {
+                    return Promise.resolve(this.cache.get(key))
+                };
+                if (this.cache.keyExist(`${key}_promise`)) {
+                    return this.cache.get(`${key}_promise`)
+                };
+            }
 
         const promise = super.requestJSON(this.url + this.config.urlBuilder.getQueryParams(params))
             .then(res => {

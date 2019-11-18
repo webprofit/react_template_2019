@@ -12,7 +12,7 @@ import LoginComponent from 'UTILS/components/login';
 
 const AdminRoute = () => {
     return (
-        <AppWrapper>
+        <AppWrapper authentication={ true }>
             <Switch>
                 <Route exact path='/login' component={LoginComponent} />
                 <PrivateRoute authed={true} path='/' component={AdminComponent} />

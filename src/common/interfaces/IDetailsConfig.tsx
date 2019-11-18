@@ -5,12 +5,10 @@ import { IEntity } from "./IEntity";
 
 
 export interface IDetailsConfig<T extends IEntity> extends IDataServiceConfig {
-  
     url: string;
     id: number;
     urlSufix?: string;
     includes: string[];
-    auth: IResponseAuth;// = Auth.getProvider();
-    urlBuilder: IUrlBuilder;// = new UrlHelper();
+    urlBuilder: IUrlBuilder;
     type: { new(): T ;} 
 }

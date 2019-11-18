@@ -1,10 +1,17 @@
 import * as React from 'react';
-import BaseComponent from 'COMMON/base-classes/BaseComponent';
-import { IState, IProps } from 'COMMON/interfaces/main-interfaces';
-import { ErrorDetails } from 'COMMON/entities/ErrorHandling';
-import NotificationService from 'UTILS/services/NotificationService';
+import { IProps } from 'COMMON/entities/basePropsState';
+import ListBase, { IListState } from 'COMMON/base-classes/ListBase';
+import { BaseEntity } from 'COMMON/entities/BaseEntity';
+import { ConfigHelper } from 'UTILS/helpers/ConfigHelper';
+import { IListConfig } from 'COMMON/interfaces/IListConfig';
 
-interface ITechState extends IState {
+class TestData extends BaseEntity {
+    id: number;
+    name: string;
+}
+interface ITechState extends IListState<TestData> {
+    // data: TestData[];
+
 }
 
 export class IEnrollProps extends IProps {
@@ -13,31 +20,26 @@ export class IEnrollProps extends IProps {
 }
 
 
-export default class MainComponent extends BaseComponent<IEnrollProps, ITechState> {
-
+export default class MainComponent extends ListBase<TestData, IEnrollProps, ITechState> {
+   
     constructor(props: IEnrollProps) {
-        super(props, {notification: NotificationService.getInstance()})
+        super(props, ConfigHelper.getDefaultConfig('') as IListConfig)
     }
 
     getInitialState() {
         return {
-            showVideo: false,
+
         } as ITechState;
     }
 
-    componentDidMount() {
-        this.getData();
-    }
 
-    getData = () => {
-        this.notifyInfo('hello, this is user page');
-    }
 
 
     render() {
+
         return (
             <div>
-             User page...
+                User page...
             </div>
         )
     }

@@ -2,8 +2,9 @@
 import '/autocomplete.css';
 import Autosuggest, { SuggestionsFetchRequestedParams, SuggestionSelectedEventData, ChangeEvent } from 'react-autosuggest';
 import { User } from 'COMMON/entities/User';
-import DataService from 'COMMON/data-service/DataService';
+import DataService, { IDataServiceConfig } from 'COMMON/data-service/DataService';
 import MenuItem from '@material-ui/core/MenuItem';
+import { IServiceConfig } from 'COMMON/interfaces/IServiceConfig';
 
 
 interface IAutoCompleteProps {
@@ -48,7 +49,7 @@ export default class AutoComplete extends React.Component<IAutoCompleteProps, IA
     componentDidMount() {
         this.setState({ value: this.props.value })
         if (this.props.url) {
-            this.userSvc = new DataService(this.props.url);
+            this.userSvc = new DataService({ url: this.props.url } as IServiceConfig);
         }
     }
 

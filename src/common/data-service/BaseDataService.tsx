@@ -11,14 +11,14 @@ export default class BaseDataService {
 
     constructor(config: IServiceConfig) {
         this.config = config;
-        this.url = this.config.urlBuilder.getBaseURL(this.config.url);
+        this.url = this.config.urlBuilder ? this.config.urlBuilder.getBaseURL(this.config.url) : this.config.url;
 
         if (process.env.NODE_ENV === 'development') {
             this.credentials = 'include';
         }
     }
 
-    private async submitRequest(url: string, method: string = 'GET', body: any = null, headers:any = this.headers): Promise<any> {
+    private async submitRequest(url: string, method: string = 'GET', body: any = null, headers: any = this.headers): Promise<any> {
         let options: any = {
             method: method,
             headers: headers,
@@ -27,6 +27,7 @@ export default class BaseDataService {
         if (method !== 'GET') {
             options.body = body;
         }
+
         const response = await fetch(url, options);
         if (!this.config.auth.ensureResponsAuth(response)) {
             return Promise.reject(new ErrorResponse("Unauthorized", response))
@@ -43,22 +44,22 @@ export default class BaseDataService {
 
     }
 
-    request = (url: string, method: string = 'GET', body: any = null, headers:any = this.headers): Promise<any> => this.submitRequest(url, method, JSON.stringify(body),headers);
+    request = (url: string, method: string = 'GET', body: any = null, headers: any = this.headers): Promise<any> => this.submitRequest(url, method, JSON.stringify(body), headers);
 
-    protected async requestJSON(url: string, method: string = 'GET', body: any = null, headers:any = this.headers, noResponse: boolean = false ): Promise<any> {
-       
+    protected async requestJSON(url: string, method: string = 'GET', body: any = null, headers: any = this.headers, noResponse: boolean = false): Promise<any> {
+
         const res = await this.request(url, method, body, headers);
-       
+
         if (res) {
             if (noResponse) {
-                return ;
+                return;
             } else {
                 return res.json();
             }
         }
     }
 
-    protected submitFile(url: string, method: string, body: any): Promise<any>  {
+    protected submitFile(url: string, method: string, body: any): Promise<any> {
         return this.submitRequest(url, method, body)
     };
 

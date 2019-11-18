@@ -1,24 +1,26 @@
 import * as React from 'react';
 import Moment from 'moment';
-import { IProps, IState } from 'COMMON/interfaces/main-interfaces';
+import { IProps, IState } from 'COMMON/entities/basePropsState';
 import { User } from 'COMMON/entities/User';
-import { Auth } from 'COMMON/services/AuthService';
-import LoadIndicatorService from 'COMMON/services/LoadingService';
-// import NotificationService from 'UTILS/services/NotificationService';
 import { ErrorResponse, ErrorDetails } from 'COMMON/entities/ErrorHandling';
-import IBaseConfig from 'COMMON/interfaces/IBaseConfig';
 import INotification from 'COMMON/interfaces/INotification';
-import { IServiceConfig } from 'COMMON/interfaces/IServiceConfig';
+import ILoadIndicator from 'COMMON/interfaces/ILoadIndicator';
+import { IAuth } from 'COMMON/interfaces/IAuth';
+import IBaseConfig from 'COMMON/interfaces/IBaseConfig';
+
 
 export default class BaseComponent<P extends IProps, S extends IState> extends React.Component<P, S> {
     protected moment = Moment;
-    protected user: User = null;
+    protected user: User;
     private notification: INotification;
+    private loadIndicator: ILoadIndicator;
+    private auth: IAuth;
 
     constructor(props: P, config: IBaseConfig) {
         super(props);
-        // debugger
         this.notification = config.notification;
+        this.loadIndicator = config.loadIndicator;
+        this.auth = config.auth
         this.state = this.getInitialState();
     }
 
@@ -28,16 +30,18 @@ export default class BaseComponent<P extends IProps, S extends IState> extends R
 
     componentWillMount() {
         this.moment.locale('en');
-        Auth.getProvider().getIdentity()
-            .then((res: User) => {
-                this.user = res;
-                this.authCompleted();
-            });
+        if (this.auth) {
+            this.auth.getIdentity()
+                .then((res: User) => {
+                    this.user = res;
+                    this.authCompleted();
+                });
+        }
     }
 
     authCompleted() { }
 
-    protected showLoading = (show: boolean): any => LoadIndicatorService.getInstance().notify(show);
+    protected showLoading = (show: boolean): any => this.loadIndicator.notify(show);
 
     notifyError = (msg: string): void => this.notification.notify('error', msg, 15000);
 
